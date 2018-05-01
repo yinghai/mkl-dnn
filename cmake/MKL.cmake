@@ -138,6 +138,25 @@ function(detect_mkl LIBNAME)
         set(CTESTCONFIG_PATH "${CTESTCONFIG_PATH}" PARENT_SCOPE)
     endif()
 
+    if (${LIBNAME} STREQUAL "mkl_intel_lp64")
+      Message(STATUS "We need extra libs to link whole Intel MKL")
+      find_library(MKL_GNU_THREAD_LIB NAMES "mkl_gnu_thread"
+        HINTS   ${MKLROOT}/lib ${MKLROOT}/lib/intel64
+                $ENV{MKLROOT}/lib $ENV{MKLROOT}/lib/intel64
+                ${__mklinc_root}/lib ${__mklinc_root}/lib/intel64)
+      if(NOT MKL_GNU_THREAD_LIB) 
+        return()
+      endif()
+      find_library(MKL_CORE_LIB NAMES "mkl_core"
+        HINTS   ${MKLROOT}/lib ${MKLROOT}/lib/intel64
+                $ENV{MKLROOT}/lib $ENV{MKLROOT}/lib/intel64
+                ${__mklinc_root}/lib ${__mklinc_root}/lib/intel64)
+      if(NOT MKL_CORE_LIB) 
+        return()
+      endif()
+      set(MKLLIB "${MKLLIB}" "${MKL_GNU_THREAD_LIB}" "${MKL_CORE_LIB}")
+    endif()
+
     # TODO: cache the value
     set(HAVE_MKL TRUE PARENT_SCOPE)
     set(MKLINC ${MKLINC} PARENT_SCOPE)
@@ -154,6 +173,7 @@ function(detect_mkl LIBNAME)
     endif()
 endfunction()
 
+detect_mkl("mkl_intel_lp64")
 detect_mkl("mklml_intel")
 detect_mkl("mklml")
 detect_mkl("mkl_rt")

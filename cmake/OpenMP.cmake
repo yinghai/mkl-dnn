@@ -49,13 +49,13 @@ endif()
 # Do not link with compiler-native OpenMP library if MKL is present.
 # Rationale: MKL comes with Intel OpenMP library which is compatible with all
 # libraries shipped with compilers that MKL-DNN supports.
-if(HAVE_MKL AND NOT WIN32 AND NOT CMAKE_CXX_COMPILER_ID STREQUAL "Intel")
-    if(OpenMP_C_FOUND)
-        set(CMAKE_C_CREATE_SHARED_LIBRARY_FORBIDDEN_FLAGS ${OpenMP_C_FLAGS})
-    endif()
-    if(OpenMP_CXX_FOUND)
-        set(CMAKE_CXX_CREATE_SHARED_LIBRARY_FORBIDDEN_FLAGS ${OpenMP_CXX_FLAGS})
-    endif()
-    list(APPEND EXTRA_LIBS ${MKLIOMP5LIB})
-endif()
+#if(HAVE_MKL AND NOT WIN32 AND NOT CMAKE_CXX_COMPILER_ID STREQUAL "Intel")
+#    if(OpenMP_C_FOUND)
+#        set(CMAKE_C_CREATE_SHARED_LIBRARY_FORBIDDEN_FLAGS ${OpenMP_C_FLAGS})
+#    endif()
+#    if(OpenMP_CXX_FOUND)
+#        set(CMAKE_CXX_CREATE_SHARED_LIBRARY_FORBIDDEN_FLAGS ${OpenMP_CXX_FLAGS})
+#    endif()
+#    list(APPEND EXTRA_LIBS ${MKLIOMP5LIB})
+#endif()
 
